@@ -23,7 +23,7 @@ exports.signup = (0, errorHandling_1.asyncHandler)((req, res, next) => __awaiter
     if (user) {
         const error = new Error("Email already exists");
         error.cause = 200;
-        next(error);
+        return next(error);
     }
     else {
         const hash = yield bcryptjs_1.default.hash(password, parseInt(process.env.saltRound));
@@ -31,11 +31,11 @@ exports.signup = (0, errorHandling_1.asyncHandler)((req, res, next) => __awaiter
             userName: req.body.userName,
             email: req.body.email,
             password: hash,
-            role: req.body.role
+            role: req.body.role,
         };
         const newUser = new user_1.default(user);
         const savedUser = yield newUser.save();
-        res.status(201).json({ message: "Done", id: savedUser });
+        return res.status(201).json({ message: "Done", id: savedUser });
     }
 }));
 exports.signin = (0, errorHandling_1.asyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -44,19 +44,19 @@ exports.signin = (0, errorHandling_1.asyncHandler)((req, res, next) => __awaiter
     if (!user) {
         const error = new Error("email does not exist");
         error.cause = 404;
-        next(error);
+        return next(error);
     }
     else {
         const compare = bcryptjs_1.default.compareSync(password, user.password);
         if (!compare) {
             const error = new Error("wrong password");
             error.cause = 404;
-            next(error);
+            return next(error);
         }
         else {
-            const tokenSignature = process.env.tokenSignature || 'defaultSecret';
+            const tokenSignature = process.env.tokenSignature || "defaultSecret";
             const token = jsonwebtoken_1.default.sign({ id: user._id, isLoggedIn: true }, tokenSignature, { expiresIn: 60 * 60 * 24 });
-            res.status(200).json({ message: "Done", token });
+            return res.status(200).json({ message: "Done", token });
         }
     }
 }));

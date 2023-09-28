@@ -15,7 +15,7 @@ if (config_1.config.nodeEnv === "DEV") {
     console.log("Running in development mode");
 }
 const app = (0, express_1.default)();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 // Convert Buffer Data
 app.use(express_1.default.json());
 // Base URL
@@ -34,4 +34,4 @@ app.use(errorHandling_1.globalError);
 app.listen(port, () => {
     console.log(`Server is running on port.....${port}`);
 });
-//# sourceMappingURL=app.js.map
+//# sourceMappingURL=index.js.map

@@ -19,7 +19,7 @@ const errorHandling_js_1 = require("../services/errorHandling.js");
 exports.roles = {
     Admin: "Admin",
     User: "User",
-    Vendor: "Vendor"
+    Vendor: "Vendor",
 };
 const auth = (accessRoles = [exports.roles.User]) => {
     return (0, errorHandling_js_1.asyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,7 +27,7 @@ const auth = (accessRoles = [exports.roles.User]) => {
         if (!(authorization === null || authorization === void 0 ? void 0 : authorization.startsWith(process.env.bearerKey))) {
             const error = new Error("in-valid token or bearer key");
             error.cause = 200;
-            next(error);
+            return next(error);
         }
         else {
             const token = authorization.split(process.env.bearerKey)[1];
@@ -35,24 +35,24 @@ const auth = (accessRoles = [exports.roles.User]) => {
             if (!(decoded === null || decoded === void 0 ? void 0 : decoded.id) || !(decoded === null || decoded === void 0 ? void 0 : decoded.isLoggedIn)) {
                 const error = new Error("in-valid token payload");
                 error.cause = 200;
-                next(error);
+                return next(error);
             }
             else {
                 const user = yield user_1.default.findById(decoded.id);
                 if (!user) {
                     const error = new Error("Not register user");
                     error.cause = 401;
-                    next(error);
+                    return next(error);
                 }
                 else {
                     if (!accessRoles.includes(user.role)) {
                         const error = new Error("Un-authorized user");
                         error.cause = 403;
-                        next(error);
+                        return next(error);
                     }
                     else {
                         req.user = user;
-                        next();
+                        return next();
                     }
                 }
             }

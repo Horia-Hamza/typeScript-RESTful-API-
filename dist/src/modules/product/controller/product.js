@@ -21,7 +21,7 @@ exports.createProduct = (0, errorHandling_1.asyncHandler)((req, res, next) => __
     if (!user) {
         const error = new Error("can not find user");
         error.cause = 404;
-        next(error);
+        return next(error);
     }
     else {
         const newProduct = {
@@ -30,14 +30,13 @@ exports.createProduct = (0, errorHandling_1.asyncHandler)((req, res, next) => __
             price: req.body.price,
         };
         const product = new product_1.default(newProduct);
-        console.log(product);
         if (!product) {
             const error = new Error("can not create product");
             error.cause = 200;
-            next(error);
+            return next(error);
         }
         else {
-            res.status(201).json({ message: "Done", product });
+            return res.status(201).json({ message: "Done", product });
         }
     }
 }));
@@ -46,7 +45,7 @@ exports.updateProduct = (0, errorHandling_1.asyncHandler)((req, res, next) => __
     if (!user) {
         const error = new Error("can not find user");
         error.cause = 404;
-        next(error);
+        return next(error);
     }
     else {
         const { id } = req.params;
@@ -54,7 +53,7 @@ exports.updateProduct = (0, errorHandling_1.asyncHandler)((req, res, next) => __
         if (!product) {
             const error = new Error("can not find product");
             error.cause = 404;
-            next(error);
+            return next(error);
         }
         else {
             const newProduct = {
@@ -64,12 +63,12 @@ exports.updateProduct = (0, errorHandling_1.asyncHandler)((req, res, next) => __
             };
             const updatedProduct = yield product_1.default.findOneAndUpdate({ _id: id }, newProduct, { new: true });
             if (updatedProduct) {
-                res.status(201).json({ message: "Done", updatedProduct });
+                return res.status(201).json({ message: "Done", updatedProduct });
             }
             else {
                 const error = new Error("fail to update product");
                 error.cause = 400;
-                next(error);
+                return next(error);
             }
         }
     }
@@ -79,10 +78,10 @@ exports.products = (0, errorHandling_1.asyncHandler)((req, res, next) => __await
     if (!products) {
         const error = new Error("can not find products");
         error.cause = 404;
-        next(error);
+        return next(error);
     }
     else {
-        res.status(201).json({ message: "Done", products });
+        return res.status(201).json({ message: "Done", products });
     }
 }));
 exports.product = (0, errorHandling_1.asyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -91,10 +90,10 @@ exports.product = (0, errorHandling_1.asyncHandler)((req, res, next) => __awaite
     if (!product) {
         const error = new Error("can not find product");
         error.cause = 404;
-        next(error);
+        return next(error);
     }
     else {
-        res.status(201).json({ message: "Done", product });
+        return res.status(201).json({ message: "Done", product });
     }
 }));
 exports.deleteProduct = (0, errorHandling_1.asyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -103,10 +102,10 @@ exports.deleteProduct = (0, errorHandling_1.asyncHandler)((req, res, next) => __
     if (!exports.product) {
         const error = new Error("can not find product");
         error.cause = 404;
-        next(error);
+        return next(error);
     }
     else {
-        res.status(201).json({ message: "Done", deletedProduct });
+        return res.status(201).json({ message: "Done", deletedProduct });
     }
 }));
 //# sourceMappingURL=product.js.map
