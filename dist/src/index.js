@@ -16,7 +16,7 @@ if (config_1.config.nodeEnv === "DEV") {
     console.log("Running in development mode");
 }
 const app = (0, express_1.default)();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 // Convert Buffer Data
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
