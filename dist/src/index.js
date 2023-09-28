@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const auth_router_1 = require("./modules/auth/auth.router");
 const product_router_1 = require("./modules/product/product.router");
 const dotenv_1 = __importDefault(require("dotenv"));
+const cors_1 = __importDefault(require("cors"));
 const config_1 = require("../config");
 const errorHandling_1 = require("./services/errorHandling");
 const connection_1 = require("../DB/connection");
@@ -18,6 +19,9 @@ const app = (0, express_1.default)();
 const port = process.env.PORT;
 // Convert Buffer Data
 app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: false }));
+// Set up cors
+app.use((0, cors_1.default)());
 // Base URL
 const baseUrl = process.env.BASEURL;
 // Set up API routing

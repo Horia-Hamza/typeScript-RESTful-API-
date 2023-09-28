@@ -2,6 +2,7 @@ import express, { Router, Request, Response } from "express";
 import { authRouter } from "./modules/auth/auth.router";
 import { productRouter } from "./modules/product/product.router";
 import dotenv from "dotenv";
+import cors from "cors"
 import { config } from "../config";
 import { globalError } from "./services/errorHandling";
 import { connectDB } from "../DB/connection";
@@ -15,6 +16,10 @@ const port = process.env.PORT;
 
 // Convert Buffer Data
 app.use(express.json());
+app.use(express.urlencoded({extended:false}))
+
+// Set up cors
+app.use(cors())
 
 // Base URL
 const baseUrl = process.env.BASEURL;
