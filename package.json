@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "type": "commonjs",
-  "engines": {
-    "node": "v18.17.1."
-  },
+  "engines": { "node": "18.x" },
   "scripts": {
     "build": "tsc --watch",
     "start": "tsc && node dist/src/index.js",
